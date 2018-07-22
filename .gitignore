@@ -1,0 +1,20 @@
+# Intellij
+.idea/
+*.iml
+*.iws
+*.class
+
+# Mac
+.DS_Store
+
+# Maven
+log/
+target/
+project/
+
+out/production
+out/artifacts
+*.jar
+
+*.log
+settings.xml
