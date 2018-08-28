@@ -4,18 +4,29 @@ import org.apache.commons.math3.special.Erf.erf
 
 import scala.concurrent.{ExecutionContext, Future}
 import scala.math.{BigDecimal, max, sqrt}
+import distance.Distance.Manhattan
+import generic.GenericUtils.{absDiffMap, reducerPoly}
+import shapeless.{::, Generic, HList, HNil}
+import shapeless.ops.hlist.{LeftFolder, Mapper, Zip}
 
 /**
   * Type to be extended by the primary data unit class
   * @tparam T The type of the concrete class implementing this trait
   */
-trait LOFDataPoint[T<:LOFDataPoint[T]] extends Distance[T] with Identifiable{self: T=>
+trait LOFDataPoint[T<:LOFDataPoint[T]] extends Manhattan[T] with Identifiable{self: T=>
 
   /**
     * Get the local reachability distance of this point
     * @return
     */
-  def getLRD(k: Int)(implicit dataSource: LOFDataSource[T], ec: ExecutionContext): Future[BigDecimal] = {
+  def getLRD[H<: HList, K<:HList, L<: HList](k: Int)
+                    (implicit dataSource: LOFDataSource[T],
+                     ec: ExecutionContext,
+                     gen: Generic.Aux[T, H],
+                     zipper: Zip.Aux[H::H::HNil, L],
+                     diffMapper: Mapper.Aux[absDiffMap.type, L, H],
+                     folder: LeftFolder.Aux[H, BigDecimal, reducerPoly.type, BigDecimal]
+  ): Future[BigDecimal] = {
 
     //  First, get the kNNs of `p`:
     val kNN = dataSource.getKNN(self, k)
@@ -40,7 +51,13 @@ trait LOFDataPoint[T<:LOFDataPoint[T]] extends Distance[T] with Identifiable{sel
     * Obtain the Local Outlier Factor of this point
     * @return
     */
-  def getLOF(k: Int)(implicit dataSource: LOFDataSource[T], ec: ExecutionContext): Future[BigDecimal] = {
+  def getLOF[H<: HList, K<:HList, L<: HList](k: Int)
+            (implicit dataSource: LOFDataSource[T],
+             ec: ExecutionContext,
+             gen: Generic.Aux[T, H],
+             zipper: Zip.Aux[H::H::HNil, L],
+             diffMapper: Mapper.Aux[absDiffMap.type, L, H],
+             folder: LeftFolder.Aux[H, BigDecimal, reducerPoly.type, BigDecimal]): Future[BigDecimal] = {
     for{
       (_, neighborhood, _) <- dataSource.getKNN(self, k)
       lrdP <- getLRD(k)
