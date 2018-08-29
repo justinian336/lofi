@@ -1,5 +1,9 @@
 package lof
 
+import generic.GenericUtils.{absDiffMap, reducerPoly}
+import shapeless.ops.hlist.{LeftFolder, Mapper, Zip}
+import shapeless.{::, Generic, HList, HNil}
+
 import scala.concurrent.{ExecutionContext, Future}
 import scala.math.BigDecimal
 
@@ -16,7 +20,13 @@ trait LOFDataSource[T<:LOFDataPoint[T]] {
     * @param k the size of the neighborhood
     * @return
     */
-  def getKNN(p: T, k: Int): Future[(LOFDataPoint[T], List[(T, BigDecimal)], Int)]
+  def getKNN[H<: HList, K<:HList, L<: HList](p: T, k: Int)
+                                            (implicit dataSource: LOFDataSource[T],
+                                              ec: ExecutionContext,
+                                              gen: Generic.Aux[T, H],
+                                              zipper: Zip.Aux[H::H::HNil, L],
+                                              diffMapper: Mapper.Aux[absDiffMap.type, L, H],
+                                              folder: LeftFolder.Aux[H, BigDecimal, reducerPoly.type, BigDecimal]): Future[(LOFDataPoint[T], List[(T, BigDecimal)], Int)]
 
   /**
     * Returns the mean Probability Local Outlier Factor. Necessary for LoOP calculation
@@ -25,6 +35,12 @@ trait LOFDataSource[T<:LOFDataPoint[T]] {
     * @param λ the confidence level as a Normal Distribution z value
     * @return
     */
-  def getNPLOF(k: Int, p: T, λ: BigDecimal)(implicit ec: ExecutionContext): Future[BigDecimal]
+  def getNPLOF[H<: HList, K<:HList, L<: HList]
+  (k: Int, p: T, λ: BigDecimal)(implicit dataSource: LOFDataSource[T],
+                                ec: ExecutionContext,
+                                gen: Generic.Aux[T, H],
+                                zipper: Zip.Aux[H::H::HNil, L],
+                                diffMapper: Mapper.Aux[absDiffMap.type, L, H],
+                                folder: LeftFolder.Aux[H, BigDecimal, reducerPoly.type, BigDecimal]): Future[BigDecimal]
 
 }

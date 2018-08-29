@@ -1,4 +1,4 @@
-name := "knn-search-actors"
+name := "lofi"
 
 version := "0.1"
 
