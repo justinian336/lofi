@@ -12,4 +12,4 @@ libraryDependencies ++= Seq(
   "org.apache.commons" % "commons-math3" % "3.3"
 )
 
-dependsOn(RootProject(uri("git://github.com/justinian336/trees.git")))
+dependsOn(RootProject(uri("git://github.com/justinian336/trees.git#master")))
