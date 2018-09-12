@@ -1,6 +1,10 @@
 <p align="center">
-  <img src ="https://thumbs.gfycat.com/SoupyAmazingHammerkop-size_restricted.gif" />
+  <img src ="https://thumbs.gfycat.com/AchingLeafyBallpython-size_restricted.gif" />
 </p>
+
+<h6 align="center">
+  Check <a href="https://www.youtube.com/watch?v=1y_LRBXRrS4">steezyasfuck</a> while you read
+</h6>
 
 # LOFI
 
