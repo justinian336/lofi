@@ -1,4 +1,8 @@
-# LOF
+<p align="center">
+  <img src ="https://thumbs.gfycat.com/SoupyAmazingHammerkop-size_restricted.gif" />
+</p>
+
+# LOFI
 
 Provides an interface for implementing Local Outlier Factor and Local Outlier Probability algorithms for anomaly detection.
 
