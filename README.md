@@ -20,7 +20,7 @@ Local Outlier Probability (LoOP) solves these issues by turning the *outlierness
 ## Usage
 
 The implementation requires the creation of two classes: one for the dataset and one for the primary data unit (or data point).
-Your dataset must extend the `LOFDataSource` trait. In particular, this requires the implementation of k-nearest neighbors search. There are several algorithms, and the best implementation depends on your use case.
+Your dataset must extend the `LOFDataSource` trait. In particular, this requires the implementation of k-nearest neighbors search. There are several algorithms, and the best implementation depends on your use case. Check [here](https://github.com/justinian336/trees) for a k-d trees-based implementation.
 
 Your *data point* class must extend the `LOFDataPoint` trait, which contains all the necessary methods.
 
