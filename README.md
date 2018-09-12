@@ -11,7 +11,7 @@
 Provides an interface for implementing Local Outlier Factor and Local Outlier Probability algorithms for anomaly detection.
 
 Local Outlier Factor (LOF) is a local measure of *outlierness* which takes into account the clustered nature of the dataset.
-It evaluates the *outlierness* of a point by comparing its distance to its k-neighbors to that of its neighbors. Points laying inside a cluster are assigned a LOF close to 1, while points located away from any cluster receive higher values.
+It evaluates the *outlierness* of a point by comparing its distance to its k-neighbors and the distance from those neighbors to that of their own neighbors. Points laying inside a cluster are assigned a LOF close to 1, while points located away from any cluster receive higher values.
 
 One disadvantage of LOF is that its values are not bounded, are not comparable between datasets and are not easily interpretable. It is difficult to make sense of the magnitude of LOF.
 
@@ -34,7 +34,7 @@ val point: MyLOFDataPoint = MyLOFDataPoint(x, y)
 // Obtain the LOF of a point by using a neighborhood size of 10
 val lof: Future[BigDecimal] = point.getLOF(10)
 
-// Obtain the LoOP of a point for a neighborhood size of 15 and a confidence level of roughly 95% (lambda = 2)
+// Obtain the LoOP of a point for a neighborhood size of 10 and a confidence level of roughly 95% (lambda = 2)
 val loop: Future[BigDecimal] = point.getLoOP(10, BigDecimal(2))
 ```
 
